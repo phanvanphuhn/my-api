@@ -1,0 +1,28 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/users'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {"name":"Ada Lovelace","email":"{{test_email}}"}
+scripts:
+  - type: beforeRequest
+    code: |-
+      pm.collectionVariables.set('test_email', `ada.${Date.now()}.${Math.floor(Math.random() * 1000000)}@example.com`);
+  - type: afterResponse
+    code: |-
+      const user = pm.response.json();
+      pm.test('creates user with normalized fields', () => {
+        pm.response.to.have.status(201);
+        pm.expect(user.id).to.be.a('string').and.not.empty;
+        pm.expect(user.name).to.eql('Ada Lovelace');
+        pm.expect(user.email).to.eql(pm.collectionVariables.get('test_email'));
+      });
+      pm.test('returns resource location', () => {
+        pm.expect(pm.response.headers.get('Location')).to.eql(`/users/${user.id}`);
+      });
+      pm.collectionVariables.set('user_id', user.id);

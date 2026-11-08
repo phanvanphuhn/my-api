@@ -1,0 +1,18 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/users'
+order: 5000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {"name":42,"email":"not-an-email"}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('rejects invalid field types and email', () => {
+        pm.response.to.have.status(400);
+        pm.expect(pm.response.json().error.code).to.eql('INVALID_PAYLOAD');
+      });

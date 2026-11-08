@@ -1,0 +1,11 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/users/00000000-0000-0000-0000-000000000000'
+order: 8000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('returns 404 for an unknown user', () => {
+        pm.response.to.have.status(404);
+        pm.expect(pm.response.json().error.code).to.eql('USER_NOT_FOUND');
+      });

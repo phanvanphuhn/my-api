@@ -1,0 +1,13 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/users/{{user_id}}'
+order: 2000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('retrieves the created user', () => {
+        pm.response.to.have.status(200);
+        const user = pm.response.json();
+        pm.expect(user.id).to.eql(pm.collectionVariables.get('user_id'));
+        pm.expect(user.email).to.eql(pm.collectionVariables.get('test_email'));
+      });

@@ -1,0 +1,7 @@
+$kind: collection
+name: Users API
+description: Local contract and regression tests for creating and retrieving users.
+variables:
+  - key: base_url
+    value: 'http://localhost:3000'
+    description: Loopback API target.
