@@ -1,0 +1,10 @@
+workspace:
+  id: "6edb8020-879f-4c88-8aed-ffe04961aca6"
+  name: my-api
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+cloudResources:
+  collections:
+    ../postman/collections/Users API: 22558940-287bb1de-5945-4915-9261-f0c4f1bdc0f5
+  globals:
+    ../postman/globals/workspace.globals.yaml: d1bc18ed-a0a7-49ac-8d59-e9c1ad2a4e8c
